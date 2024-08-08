@@ -1,0 +1,50 @@
+out_dir: results/_VNs
+metric_best: ap
+tensorboard_agg: False
+tensorboard_each_run: False
+wandb:
+  use: False
+  project: peptides-struct
+dataset:
+  dir: /data/csxuanli/LRGB/
+  format: OGB
+  name: peptides-functional
+  task: graph
+  task_type: classification_multilabel
+  transductive: False
+  node_encoder: True
+  node_encoder_name: Atom
+  node_encoder_bn: False
+  edge_encoder: True
+  edge_encoder_name: Bond
+  edge_encoder_bn: False
+train:
+  mode: custom
+  batch_size: 128
+  eval_period: 1
+  ckpt_period: 100
+gvm:
+  avg_nodes: 150
+  pool_ratio: 0.04
+  n_pool_heads: 1
+model:
+  type: custom_gnn
+  loss_fun: cross_entropy
+  graph_pooling: mean
+gnn:
+  layers_pre_mp: 0
+  layers_mp: 5
+  layers_post_mp: 1
+  dim_inner: 88
+  layer_type: gineconv
+  act: relu
+  residual: True
+  dropout: 0.0
+optim:
+  optimizer: adamW
+  weight_decay: 0.0
+  base_lr: 0.0003
+  max_epoch: 200
+  scheduler: cosine_with_warmup
+  num_warmup_epochs: 10
+  min_lr: 1e-5

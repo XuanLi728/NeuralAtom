@@ -1,0 +1,62 @@
+out_dir: results
+metric_best: f1
+tensorboard_agg: False
+tensorboard_each_run: False
+wandb:
+  use: False
+  project: Pascal
+dataset:
+  dir: /datastorage/xuanli/lrgb/LRGB
+  format: PyG-VOCSuperpixels
+  name: edge_wt_only_coord # Alternative: edge_wt_region_boundary
+  slic_compactness: 10
+  task: graph # Even if VOC is node-level task, this needs to be set as 'graph'
+  task_type: classification
+  transductive: False
+  node_encoder: True
+  node_encoder_name: VOCNode
+  node_encoder_bn: False
+  edge_encoder: True
+  edge_encoder_name: VOCEdge
+  edge_encoder_bn: False
+train:
+  mode: custom
+  batch_size: 32
+  eval_period: 1
+  ckpt_period: 100
+model:
+  type: vm_gnn
+  loss_fun: weighted_cross_entropy
+gnn:
+  head: inductive_node
+  layers_pre_mp: 0
+  layers_mp: 8
+  layers_post_mp: 3
+  dim_inner: 166
+  layer_type: gineconv
+  batchnorm: True
+  residual: True
+  act: relu
+  dropout: 0.0
+  agg: sum
+  normalize_adj: False
+vm:
+  vn_residual: True
+  vn_drop_ratio: 0.0
+optim:
+  optimizer: adamW
+  weight_decay: 0.0
+  base_lr: 0.001
+  max_epoch: 200
+  scheduler: cosine_with_warmup
+  num_warmup_epochs: 20
+  min_lr: 1e-5
+# optim:
+#   optimizer: adam
+#   weight_decay: 0.0
+#   base_lr: 0.0005
+#   max_epoch: 1000
+#   scheduler: reduce_on_plateau
+#   reduce_factor: 0.5
+#   schedule_patience: 10
+#   min_lr: 1e-5
