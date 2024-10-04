@@ -4,14 +4,14 @@ The repo is based on [GraphGPS](https://github.com/rampasek/GraphGPS) which is b
 
 
 ### Overview of Datasets
+Data set downloads automatically, you can setup the downloading root in each config file. For example, in `./configs/GCN/peptides-func-GCN.yaml` the default root is `dataset:
+  dir: ./data`.
 
-| Dataset         | Domain            | Task                 | Node Feat. (dim)   | Edge Feat. (dim)     | Perf. Metric |
-| --------------- | ----------------- | -------------------- | ------------------ | -------------------- | ------------ |
-| PascalVOC-SP    | Computer Vision   | Node Prediction      | Pixel + Coord (14) | Edge Weight (1 or 2) | macro F1     |
-| COCO-SP         | Computer Vision   | Node Prediction      | Pixel + Coord (14) | Edge Weight (1 or 2) | macro F1     |
-| PCQM-Contact    | Quantum Chemistry | Link Prediction      | Atom Encoder (9)   | Bond Encoder (3)     | Hits@K, MRR  |
-| Peptides-func   | Chemistry         | Graph Classification | Atom Encoder (9)   | Bond Encoder (3)     | AP           |
-| Peptides-struct | Chemistry         | Graph Regression     | Atom Encoder (9)   | Bond Encoder (3)     | MAE          |
+| Dataset         | Domain            | Task                 | Node Feat. (dim) | Edge Feat. (dim) | Perf. Metric |
+| --------------- | ----------------- | -------------------- | ---------------- | ---------------- | ------------ |
+| PCQM-Contact    | Quantum Chemistry | Link Prediction      | Atom Encoder (9) | Bond Encoder (3) | Hits@K, MRR  |
+| Peptides-func   | Chemistry         | Graph Classification | Atom Encoder (9) | Bond Encoder (3) | AP           |
+| Peptides-struct | Chemistry         | Graph Regression     | Atom Encoder (9) | Bond Encoder (3) | MAE          |
 
 
 ### Statistics of Datasets
@@ -50,18 +50,11 @@ conda clean --all
 ```
 
 ### Running NeuralAtom
+
+Given `GCN` as example, using `Decremental (desc)` setting shown in Fig.4 and pool ratio is setted as `0.9` with random `seed` as `0`, we have:
 ```bash
 conda activate lrgb
-
-# Running GCN baseline for Peptides-func.
-python main.py --cfg configs/GCN/peptides-func-GCN.yaml  wandb.use False
-
-# Running SAN baseline for PascalVOC-SP.
-python main.py --cfg configs/SAN/vocsuperpixels-SAN.yaml  wandb.use False
-
+cd 2D_Molecule
+# Running GCN w/ Neural Atoms for Peptides-func.
+python main.py --cfg ./configs/GCN/peptides-func-GCN.yaml seed 0
 ```
-
-The scripts for all experiments are located in [run](./run) directory.
-
-### W&B logging
-To use W&B logging, set `wandb.use True` and have a `gtransformers` entity set-up in your W&B account (or change it to whatever else you like by setting `wandb.entity`). 

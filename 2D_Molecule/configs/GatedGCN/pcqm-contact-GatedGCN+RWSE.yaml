@@ -7,7 +7,7 @@ wandb:
   use: False
   project: pcqm4m-contact
 dataset:
-  dir: /data/csxuanli/LRGB/
+  dir: ./data
   format: OGB
   name: PCQM4Mv2Contact-shuffle
   task: graph # PCQM4Mv2Contact is edge-level task, but because it is inductive, set to 'graph'
@@ -15,7 +15,7 @@ dataset:
   resample_negative: True
   transductive: False
   node_encoder: True
-  node_encoder_name: Atom+RWSE # +LapPE
+  node_encoder_name: Atom+RWSE+LapPE
   node_encoder_bn: False
   edge_encoder: True
   edge_encoder_name: Bond
@@ -27,16 +27,16 @@ posenc_RWSE:
   model: Linear
   dim_pe: 20
   raw_norm_type: BatchNorm
-# posenc_LapPE:
-#   enable: True
-#   eigen:
-#     laplacian_norm: none
-#     eigvec_norm: L2
-#     max_freqs: 10
-#   model: DeepSet
-#   dim_pe: 16
-#   layers: 2
-#   raw_norm_type: none
+posenc_LapPE:
+  enable: True
+  eigen:
+    laplacian_norm: none
+    eigvec_norm: L2
+    max_freqs: 10
+  model: DeepSet
+  dim_pe: 16
+  layers: 2
+  raw_norm_type: none
 train:
   mode: custom
   batch_size: 256
@@ -46,6 +46,7 @@ gvm:
   avg_nodes: 35
   pool_ratio: 0.6
   n_pool_heads: 1
+  na_order: fixed
 model:
   type: custom_gnn
   loss_fun: cross_entropy

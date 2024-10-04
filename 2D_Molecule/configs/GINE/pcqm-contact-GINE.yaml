@@ -7,7 +7,7 @@ wandb:
   use: False
   project: pcqm4m-contact
 dataset:
-  dir: /data/csxuanli/LRGB/
+  dir: ./data
   format: OGB
   name: PCQM4Mv2Contact-shuffle
   task: graph # PCQM4Mv2Contact is edge-level task, but because it is inductive, set to 'graph'
@@ -43,6 +43,7 @@ gvm:
   avg_nodes: 40
   pool_ratio: 0.6
   n_pool_heads: 1
+  na_order: fixed
 gnn:
   head: inductive_edge
   layers_pre_mp: 0

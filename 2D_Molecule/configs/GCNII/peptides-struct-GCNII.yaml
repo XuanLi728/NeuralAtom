@@ -7,7 +7,7 @@ wandb:
   use: False
   project: peptides-struct
 dataset:
-  dir: /data/csxuanli/LRGB/
+  dir: ./data
   format: OGB
   name: peptides-structural
   task: graph
@@ -30,6 +30,7 @@ gvm:
   avg_nodes: 150
   pool_ratio: 0.6
   n_pool_heads: 1
+  na_order: fixed
 gnn:
   layers_pre_mp: 0
   layers_mp: 5

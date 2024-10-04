@@ -10,7 +10,7 @@ from graphgps.layer.gatedgcn_layer import GatedGCNLayer
 from graphgps.layer.gcnii_conv_layer import GCN2ConvLayer
 from graphgps.layer.gine_conv_layer import GINEConvLayer
 from graphgps.layer.mlp_layer import MLPLayer
-from graphgps.layer.vn_pooling_layer import Exchanging, Porjecting
+from graphgps.layer.neural_atom import Exchanging, Porjecting
 from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.models.gnn import FeatureEncoder, GNNPreMP
 from torch_geometric.graphgym.register import register_network
@@ -39,11 +39,25 @@ class CustomGNN(torch.nn.Module):
         self.model_type = cfg.gnn.layer_type
 
         layers = []
-        multi_vn = []
-        vn_trans = []
+        multi_NA = []
+        NA_trans = []
+        
         num_out_nodes = cfg.gvm.avg_nodes
+
+        num_NAs = [] # for incre number of NAs
         for _ in range(cfg.gnn.layers_mp):
-            num_out_nodes = max(math.ceil(cfg.gvm.pool_ratio * num_out_nodes), 1)
+            num_NAs.append(max(math.ceil(cfg.gvm.pool_ratio * num_out_nodes), 1))
+            num_NAs = num_NAs[::-1]
+            
+        for layer_idx in range(cfg.gnn.layers_mp):
+            
+            if cfg.gvm.na_order == "desc":
+                num_out_nodes = max(math.ceil(cfg.gvm.pool_ratio * num_out_nodes), 1)
+            elif cfg.gvm.na_order == "fixed":
+                num_out_nodes = math.ceil(cfg.gvm.pool_ratio * cfg.gvm.avg_nodes)
+            elif cfg.gvm.na_order == "incre":
+                num_out_nodes = num_NAs[layer_idx]
+                
             if self.model_type == "gcn":
                 layer = conv_model(dim_in, dim_in)
             else:

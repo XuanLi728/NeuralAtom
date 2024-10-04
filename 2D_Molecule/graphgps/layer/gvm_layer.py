@@ -6,17 +6,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch_geometric.nn as pygnn
 from einops import einsum, rearrange, reduce
+from graphgps.layer.bigbird_layer import SingleBigBirdLayer
+from graphgps.layer.gatedgcn_layer import GatedGCNLayer
+from graphgps.layer.gine_conv_layer import GINEConvESLapPE
+from graphgps.layer.mlp_mixer_block import MLPMixer
+from graphgps.layer.neural_atom import Exchanging, Porjecting
 from performer_pytorch import SelfAttention
 from torch import nn
 from torch_geometric.data import Batch
 from torch_geometric.nn import Linear as Linear_pyg
 from torch_geometric.utils import to_dense_batch
-
-from graphgps.layer.bigbird_layer import SingleBigBirdLayer
-from graphgps.layer.gatedgcn_layer import GatedGCNLayer
-from graphgps.layer.gine_conv_layer import GINEConvESLapPE
-from graphgps.layer.mlp_mixer_block import MLPMixer
-from graphgps.layer.vn_pooling_layer import PMA, SAB
 
 
 class GVMLayer(nn.Module):
