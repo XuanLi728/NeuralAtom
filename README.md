@@ -53,7 +53,7 @@ We provide commands for 2D and 3D scenario to reproduce the paper as follows.
 
 ### 2D molecular graphs (LRGB)
 
-Will release soon. The implementation of NeuralAtom can refer to [here](3D_Molecule/README.md).
+The installation and full commands for 2D scenario can be found at [here](2D_Molecule/README.md).
 
 
 ### 3D molecular graphs (OE62)
