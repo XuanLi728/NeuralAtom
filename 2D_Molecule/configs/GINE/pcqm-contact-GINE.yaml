@@ -1,4 +1,4 @@
-out_dir: dummy
+out_dir: results
 metric_best: mrr
 num_workers: 4
 tensorboard_agg: False
@@ -7,7 +7,7 @@ wandb:
   use: False
   project: pcqm4m-contact
 dataset:
-  dir: ./data
+  dir: /data/csxuanli/LRGB
   format: OGB
   name: PCQM4Mv2Contact-shuffle
   task: graph # PCQM4Mv2Contact is edge-level task, but because it is inductive, set to 'graph'
